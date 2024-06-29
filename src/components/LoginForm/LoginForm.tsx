@@ -4,8 +4,11 @@ import { useState } from "react";
 
 import styles from "./LoginForm.module.css";
 import { useLogin } from "@/hooks";
+import { setCookie } from "@/actions";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login, loading, errors } = useLogin();
@@ -17,6 +20,9 @@ export default function LoginForm() {
       token_type,
       username: user,
     } = await login(username, password);
+    if (!access_token) return;
+    setCookie("access_token", access_token);
+    router.push("/");
     console.log({ access_token, token_type, user });
   };
 
