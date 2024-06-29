@@ -17,10 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
-      <Link href="/login"> Login</Link>
-      <Link href="/signup"> Signup</Link>
-      <Link href="/book-catalog"> Book Catalog</Link>
+      <body className={inter.className}>
+        <Link href="/login"> Login</Link>
+        <Link href="/signup"> Signup</Link>
+        <Link href="/book-catalog"> Book Catalog</Link>
+        {children}
+      </body>
     </html>
   );
 }

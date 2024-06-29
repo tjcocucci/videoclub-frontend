@@ -17,7 +17,7 @@ export default function BookCatalog() {
     const checkAuth = async () => {
       const access_token = await getCookie("access_token");
       if (!access_token) {
-        window.location.href = "/login";
+        router.push("/login");
       }
       setShowLoading(false);
       setIsAuthenticated(true);

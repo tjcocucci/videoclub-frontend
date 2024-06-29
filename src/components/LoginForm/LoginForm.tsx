@@ -15,15 +15,11 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const {
-      access_token,
-      token_type,
-      username: user,
-    } = await login(username, password);
-    if (!access_token) return;
-    setCookie("access_token", access_token);
+    const data = await login(username, password);
+    if (!data?.access_token) return;
+    setCookie("access_token", data.access_token);
     router.push("/");
-    console.log({ access_token, token_type, user });
+    console.log(data);
   };
 
   return (

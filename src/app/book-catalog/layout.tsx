@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { AuthProvider } from "@/context";
 
 export default function Layout({
@@ -5,5 +7,9 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <AuthProvider> {children} </AuthProvider>;
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <AuthProvider> {children} </AuthProvider>;
+    </Suspense>
+  );
 }
