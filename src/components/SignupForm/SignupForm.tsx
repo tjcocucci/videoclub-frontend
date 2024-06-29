@@ -2,22 +2,18 @@
 
 import { useState } from "react";
 
-import styles from "./LoginForm.module.css";
-import { useLogin } from "@/hooks";
+import styles from "./SignupForm.module.css";
+import { useSignup } from "@/hooks";
 
-export default function LoginForm() {
+export default function SignupForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading, errors } = useLogin();
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { signup, loading, errors } = useSignup();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const {
-      access_token,
-      token_type,
-      username: user,
-    } = await login(username, password);
-    console.log({ access_token, token_type, user });
+    await signup(username, password, confirmPassword);
   };
 
   return (
@@ -38,14 +34,24 @@ export default function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <button onClick={handleSubmit}>{loading ? "Loading..." : "Login"}</button>
+      <label>
+        Confirm Password:
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </label>
+      <button onClick={handleSubmit}>
+        {loading ? "Loading..." : "Signup"}
+      </button>
       {errors && (
         <ul className={styles.error}>
           {errors.map((error, index) => (
             <li key={index}>{error}</li>
           ))}
         </ul>
-      )}
+      )}{" "}
     </form>
   );
 }

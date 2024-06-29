@@ -1,17 +1,23 @@
+import { userSignupSchema } from "@/validators";
 import { useState } from "react";
-import { userLoginSchema } from "@/validators";
 import { ZodError } from "zod";
 
-export function useLogin() {
+export function useSignup() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
-  const login = async (username: string, password: string) => {
+  const signup = async (
+    username: string,
+    password: string,
+    confirmPassword: string
+  ) => {
+    setLoading(true);
+
     try {
-      userLoginSchema.parse({ username, password });
+      userSignupSchema.parse({ username, password, confirmPassword });
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AUTH_SERVER_ADDRESS}/login`,
+        `${process.env.NEXT_PUBLIC_AUTH_SERVER_ADDRESS}/users`,
         {
           method: "POST",
           headers: {
@@ -26,10 +32,8 @@ export function useLogin() {
         const data = await response.json();
         setErrors([]);
         return data;
-      } else if (response.status === 404) {
-        throw new Error("User not found");
-      } else if (response.status === 401) {
-        throw new Error("Invalid password");
+      } else if (response.status === 409) {
+        throw new Error("User already exists");
       } else {
         throw new Error("Unexpected error");
       }
@@ -46,5 +50,5 @@ export function useLogin() {
     }
   };
 
-  return { login, loading, errors };
+  return { signup, loading, errors };
 }
