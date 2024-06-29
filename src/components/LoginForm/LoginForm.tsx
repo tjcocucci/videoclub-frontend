@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import styles from "./LoginForm.module.css";
 import { useLogin } from "@/hooks";
-import { setCookie } from "@/actions";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
@@ -15,11 +14,10 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = await login(username, password);
-    if (!data?.access_token) return;
-    setCookie("access_token", data.access_token);
-    router.push("/");
-    console.log(data);
+    const loggedIn = await login(username, password);
+    if (loggedIn) {
+      router.push("/");
+    }
   };
 
   return (

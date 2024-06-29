@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
-import styles from "./SignupForm.module.css";
+import { useRouter } from "next/navigation";
 import { useSignup } from "@/hooks";
+import styles from "./SignupForm.module.css";
 
 export default function SignupForm() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,7 +14,10 @@ export default function SignupForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signup(username, password, confirmPassword);
+    const isSignedUp = await signup(username, password, confirmPassword);
+    if (isSignedUp) {
+      router.push("/login");
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
-import { userSignupSchema } from "@/validators";
 import { useState } from "react";
 import { ZodError } from "zod";
+import { userSignupSchema } from "@/validators";
+import { signup as signupAction } from "@/actions";
 
 export function useSignup() {
   const [loading, setLoading] = useState(false);
@@ -15,27 +16,12 @@ export function useSignup() {
 
     try {
       userSignupSchema.parse({ username, password, confirmPassword });
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AUTH_SERVER_ADDRESS}/users`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setErrors([]);
-        return data;
-      } else if (response.status === 409) {
-        throw new Error("User already exists");
+      const result = await signupAction(username, password);
+      if (result.success) {
+        return true;
       } else {
-        throw new Error("Unexpected error");
+        setErrors([result.error]);
+        return false;
       }
     } catch (error: any) {
       if (error instanceof ZodError) {

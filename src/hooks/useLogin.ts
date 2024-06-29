@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { userLoginSchema } from "@/validators";
+import { login as loginAction } from "@/actions";
 import { ZodError } from "zod";
 
 export function useLogin() {
@@ -9,29 +10,12 @@ export function useLogin() {
   const login = async (username: string, password: string) => {
     try {
       userLoginSchema.parse({ username, password });
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AUTH_SERVER_ADDRESS}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setErrors([]);
-        return data;
-      } else if (response.status === 404) {
-        throw new Error("User not found");
-      } else if (response.status === 401) {
-        throw new Error("Invalid password");
+      const result = await loginAction(username, password);
+      if (result.success) {
+        return true;
       } else {
-        throw new Error("Unexpected error");
+        setErrors([result.error]);
+        return false;
       }
     } catch (error: any) {
       if (error instanceof ZodError) {
