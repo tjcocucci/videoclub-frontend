@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Navbar } from "@/components";
+import { SessionProvider } from "@/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Link href="/login"> Login</Link>
-        <Link href="/signup"> Signup</Link>
-        <Link href="/book-catalog"> Book Catalog</Link>
-        {children}
+        <SessionProvider>
+          <Navbar />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

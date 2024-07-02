@@ -1,6 +1,7 @@
 "use server";
 
 import { SignJWT, jwtVerify } from "jose";
+import { SESSION_EXPIRATION } from "@/constants";
 
 const key = new TextEncoder().encode(process.env.SECRET_KEY);
 
@@ -8,7 +9,7 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("10 sec from now")
+    .setExpirationTime(new Date(Date.now() + SESSION_EXPIRATION))
     .sign(key);
 }
 

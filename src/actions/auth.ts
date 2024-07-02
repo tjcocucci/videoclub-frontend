@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers";
 import { encrypt } from "./jwt";
+import { SESSION_EXPIRATION } from "@/constants";
+import { getSession } from "./session";
 
 export async function login(username: string, password: string) {
   try {
@@ -21,13 +23,14 @@ export async function login(username: string, password: string) {
       const data = await response.json();
 
       // Create the session
-      const expires = new Date(Date.now() + 10 * 1000);
+      const expires = new Date(Date.now() + SESSION_EXPIRATION);
       const session = await encrypt({ data, expires });
 
       // Save the session in a cookie
       cookies().set("session", session, { expires, httpOnly: true });
+      const s = await getSession()
 
-      return { success: true };
+      return { success: true, session: s };
     } else if (response.status === 404) {
       return { success: false, error: "User not found" };
     } else if (response.status === 401) {
@@ -36,7 +39,7 @@ export async function login(username: string, password: string) {
       return { success: false, error: "Unexpected error" };
     }
   } catch (error: any) {
-    return { success: false, error: error.message || "Internal server error" };
+    return { success: false, error: "Internal server error" };
   }
 }
 
