@@ -26,6 +26,7 @@ export default function SignupForm() {
         Username:
         <input
           type="text"
+          autoComplete="on"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -34,6 +35,7 @@ export default function SignupForm() {
         Password:
         <input
           type="password"
+          autoComplete="on"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -42,6 +44,7 @@ export default function SignupForm() {
         Confirm Password:
         <input
           type="password"
+          autoComplete="off"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />

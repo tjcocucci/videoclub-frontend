@@ -26,6 +26,7 @@ export default function LoginForm() {
         Username:
         <input
           type="text"
+          autoComplete="on"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -34,6 +35,7 @@ export default function LoginForm() {
         Password:
         <input
           type="password"
+          autoComplete="on"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
