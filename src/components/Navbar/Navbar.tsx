@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useSession } from "@/context";
@@ -11,6 +11,8 @@ export default function Navbar() {
   const { session, loading } = useSession();
   const router = useRouter();
   const { logout } = useLogout();
+  const path = usePathname();
+
   const handleLogout = async () => {
     await logout();
     router.push("/");
@@ -18,14 +20,33 @@ export default function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <Link href="/">Home</Link>
-      <Link href="/book-catalog">Book catalog</Link>
+      <Link href="/" className={path === "/" ? styles.active : styles.inactive}>
+        Home
+      </Link>
+      <Link
+        href="/book-catalog"
+        className={path === "/book-catalog" ? styles.active : styles.inactive}
+      >
+        Book catalog
+      </Link>
       {loading ? null : session ? (
-        <button onClick={handleLogout}>Logout</button>
+        <button
+          className={styles.inactive}
+        onClick={handleLogout}>Logout</button>
       ) : (
         <>
-          <Link href="/login">Login</Link>
-          <Link href="/signup">Signup</Link>
+          <Link
+            href="/login"
+            className={path === "/login" ? styles.active : styles.inactive}
+          >
+            Login
+          </Link>
+          <Link
+            href="/signup"
+            className={path === "/signup" ? styles.active : styles.inactive}
+          >
+            Signup
+          </Link>
         </>
       )}
     </nav>

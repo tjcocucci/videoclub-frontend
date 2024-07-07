@@ -9,6 +9,30 @@
   max-width: 100vw;
 }
 
+.active,
+.inactive {
+  background-color: transparent;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.inactive {
+  border: none;
+}
+.active {
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.navbar > a:hover,
+.navbar > button:hover {
+  background-color: var(--background-box);
+}
+
 .error {
   color: red;
 }
