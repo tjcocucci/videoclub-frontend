@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import styles from "./LoginForm.module.css";
 import { useLogin } from "@/hooks";
 import { useRouter } from "next/navigation";
+import { FormContainer, ErrorList } from "@/components";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -21,9 +21,10 @@ export default function LoginForm() {
   };
 
   return (
-    <form className={styles.container}>
+    <FormContainer>
+      <h1>Login</h1>
       <label>
-        Username:
+        <p>Username:</p>
         <input
           type="text"
           autoComplete="on"
@@ -32,7 +33,7 @@ export default function LoginForm() {
         />
       </label>
       <label>
-        Password:
+        <p>Password:</p>
         <input
           type="password"
           autoComplete="on"
@@ -41,13 +42,7 @@ export default function LoginForm() {
         />
       </label>
       <button onClick={handleSubmit}>{loading ? "Loading..." : "Login"}</button>
-      {errors && (
-        <ul className={styles.error}>
-          {errors.map((error, index) => (
-            <li key={index}>{error}</li>
-          ))}
-        </ul>
-      )}
-    </form>
+      {errors && <ErrorList errors={errors} />}
+    </FormContainer>
   );
 }

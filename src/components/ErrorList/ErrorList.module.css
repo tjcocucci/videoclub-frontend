@@ -1,0 +1,8 @@
+.error {
+  color: red;
+  font-size: 0.65em;
+}
+
+.error > li {
+  list-style-type: none;
+}

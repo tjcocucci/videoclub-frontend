@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSignup } from "@/hooks";
-import styles from "./SignupForm.module.css";
+import { FormContainer, ErrorList } from "@/components";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -21,9 +21,10 @@ export default function SignupForm() {
   };
 
   return (
-    <form className={styles.container}>
+    <FormContainer>
+      <h1>Signup</h1>
       <label>
-        Username:
+        <p>Username:</p>
         <input
           type="text"
           autoComplete="on"
@@ -32,7 +33,7 @@ export default function SignupForm() {
         />
       </label>
       <label>
-        Password:
+        <p>Password:</p>
         <input
           type="password"
           autoComplete="on"
@@ -41,7 +42,7 @@ export default function SignupForm() {
         />
       </label>
       <label>
-        Confirm Password:
+        <p>Confirm Password:</p>
         <input
           type="password"
           autoComplete="off"
@@ -52,13 +53,7 @@ export default function SignupForm() {
       <button onClick={handleSubmit}>
         {loading ? "Loading..." : "Signup"}
       </button>
-      {errors && (
-        <ul className={styles.error}>
-          {errors.map((error, index) => (
-            <li key={index}>{error}</li>
-          ))}
-        </ul>
-      )}{" "}
-    </form>
+      {errors && <ErrorList errors={errors} />}
+    </FormContainer>
   );
 }

@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  background-color: var(--background-box);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  max-height: 200vh;
+  min-width: 50vh;
+  max-width: 100vh;
+  padding: 1em;
+  margin-inline: auto;
+  border-radius: 10px;
+  gap: 1em;
+  margin-block: 2em;
+}
+
+.container > h1 {
+  font-size: 1.5em;
+}
+
+.container > label > input {
+  background-color: var(--input-background);
+  border: none;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-size: 1em;
+  width: 100%;
+}
+
+.container > label > p {
+  font-size: 0.65em;
+  color: var(--font-color-disabled);
+}
+
+.container > button:hover {
+  background-color: var(--button-background-hover);
+}
+
+.container > button {
+  background-color: var(--button-background);
+  color: var(--button-font-color);
+  border: none;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
+}

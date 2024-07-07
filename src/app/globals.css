@@ -5,9 +5,19 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
+  --font-color: black;
+
   --foreground-rgb: 0, 0, 0;
+  --font-color-disabled: #a0a0a0;
+  --background-box: rgb(33, 33, 33);
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+
+  --button-background: rgb(1, 65, 255);
+  --button-font-color: white;
+  --button-background-hover: rgb(1, 65, 255, 0.8);
+
+  --input-background: rgba(70, 90, 126, 0.4);
 
   --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
