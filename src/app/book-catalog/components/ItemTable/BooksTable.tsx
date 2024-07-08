@@ -5,7 +5,7 @@ import styles from "./BooksTable.module.css";
 export default function BooksTable({
   items,
 }: {
-  items: { title: string; author: string }[];
+  items: { id: number; title: string; author: string }[];
 }) {
   return (
     <div className={styles.container}>

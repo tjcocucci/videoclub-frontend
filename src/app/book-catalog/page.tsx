@@ -1,11 +1,11 @@
 "use client";
 
 import { ErrorList } from "@/components";
-import { useGetBooks } from "@/hooks";
 import { BooksTable } from "./components";
+import { useBookCatalog } from "@/context";
 
 export default function BookCatalog() {
-  const { books, loading, errors } = useGetBooks();
+  const { books, loading, errors } = useBookCatalog();
 
   return (
     <div>

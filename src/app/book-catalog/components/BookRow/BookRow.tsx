@@ -2,19 +2,34 @@
 
 import { useState } from "react";
 import styles from "./BookRow.module.css";
+import { useRemoveBook, useUpdateBook } from "@/hooks";
+import { useBookCatalog } from "@/context";
 
 export default function BookRow({
   book,
 }: {
-  book: { title: string; author: string };
+  book: { id: number; title: string; author: string };
 }) {
+  const {
+    removeErrors,
+    updateErrors,
+    updateLoading,
+    removeLoading,
+    handleRemoveBook,
+    handleUpdateBook,
+  } = useBookCatalog();
+
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(book.title);
   const [author, setAuthor] = useState(book.author);
 
   const save = () => {
     setEditing(false);
-    // save to server
+    handleUpdateBook({ id: book.id, title, author });
+  };
+
+  const remove = () => {
+    handleRemoveBook(book.id);
   };
 
   const onEditButtonClick = () => {
@@ -25,33 +40,41 @@ export default function BookRow({
     }
   };
 
+  const loading = removeLoading || updateLoading;
+
   return (
     <div className={styles.container}>
-      {editing ? (
+      {!loading && (
         <>
-          <input
-            className={styles.title}
-            defaultValue={book.title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input
-            className={styles.author}
-            defaultValue={book.author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </>
-      ) : (
-        <>
-          <h2 className={styles.title}>{book.title}</h2>
-          <p className={styles.author}>{book.author}</p>
+          {editing ? (
+            <>
+              <input
+                className={styles.title}
+                defaultValue={book.title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <input
+                className={styles.author}
+                defaultValue={book.author}
+                onChange={(e) => setAuthor(e.target.value)}
+              />
+            </>
+          ) : (
+            <>
+              <h2 className={styles.title}>{book.title}</h2>
+              <p className={styles.author}>{book.author}</p>
+            </>
+          )}
+          <div className={styles.buttons}>
+            <button className={styles.editButton} onClick={onEditButtonClick}>
+              {editing ? "Confirm" : "Edit"}
+            </button>
+            <button className={styles.removeButton} onClick={remove}>
+              Remove
+            </button>
+          </div>
         </>
       )}
-      <div className={styles.buttons}>
-        <button className={styles.editButton} onClick={onEditButtonClick}>
-          {editing ? "Confirm" : "Edit"}
-        </button>
-        <button className={styles.removeButton}>Remove</button>
-      </div>
     </div>
   );
 }
