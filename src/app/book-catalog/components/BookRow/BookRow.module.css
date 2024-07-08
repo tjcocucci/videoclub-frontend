@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--background-box);
+  height: 3em;
+  gap: 1em;
+  padding: 0.5em;
+  border-radius: 5px;
+  justify-content: space-between;
+}
+
+.title,
+.author {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 1.25em;
+  width: 300px;
+}
+
+.author {
+  font-size: 1em;
+  width: 200px;
+}
+
+.buttons {
+  display: flex;
+  gap: 1em;
+}
+
+.editButton,
+.removeButton {
+  padding: 0.5em;
+  border: none;
+  border-radius: 5px;
+}
+
+.editButton {
+  background-color: rgb(75, 155, 75);
+}
+.editButton:hover {
+  background-color: rgb(75, 155, 75, 0.5);
+}
+
+.removeButton {
+  background-color: rgb(155, 75, 75);
+}
+.removeButton:hover {
+  background-color: rgb(155, 75, 75, 0.5);
+}

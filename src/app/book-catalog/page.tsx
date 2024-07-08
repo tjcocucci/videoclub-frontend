@@ -1,6 +1,8 @@
 "use client";
 
+import { ErrorList } from "@/components";
 import { useGetBooks } from "@/hooks";
+import { BooksTable } from "./components";
 
 export default function BookCatalog() {
   const { books, loading, errors } = useGetBooks();
@@ -8,25 +10,8 @@ export default function BookCatalog() {
   return (
     <div>
       <h1>Book Catalog</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {books.map((book) => (
-            <li key={book.id}>
-              <h2>{book.title}</h2>
-              <p>{book.author}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-      {errors && (
-        <ul>
-          {errors.map((error, index) => (
-            <li key={index}>{error}</li>
-          ))}
-        </ul>
-      )}
+      {loading ? <p>Loading...</p> : <BooksTable items={books} />}
+      {errors && <ErrorList errors={errors} />}
     </div>
   );
 }
