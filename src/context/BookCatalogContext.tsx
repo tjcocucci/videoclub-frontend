@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetBooks, useRemoveBook, useUpdateBook } from "@/hooks";
+import { useAddBook, useGetBooks, useRemoveBook, useUpdateBook } from "@/hooks";
 import {
   createContext,
   useContext,
@@ -8,12 +8,7 @@ import {
   useState,
   ReactNode,
 } from "react";
-
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-}
+import { AddBookRequest, Book, UpdateBookRequest } from "@/types";
 
 interface BookCatalogContextType {
   books: Book[];
@@ -21,10 +16,13 @@ interface BookCatalogContextType {
   errors: string[];
   removeErrors: string[];
   updateErrors: string[];
+  addErrors: string[];
   updateLoading: boolean;
   removeLoading: boolean;
+  addLoading: boolean;
   handleRemoveBook: (id: number) => Promise<void>;
-  handleUpdateBook: (book: Book) => Promise<void>;
+  handleUpdateBook: (book: UpdateBookRequest) => Promise<void>;
+  handleAddBook: (book: AddBookRequest) => Promise<void>;
 }
 
 const BookCatalogContext = createContext<BookCatalogContextType | undefined>(
@@ -43,6 +41,7 @@ export const BookCatalogProvider = ({ children }: { children: ReactNode }) => {
     errors: updateErrors,
     loading: updateLoading,
   } = useUpdateBook();
+  const { addBook, errors: addErrors, loading: addLoading } = useAddBook();
 
   const [books, setBooks] = useState(initialBooks);
 
@@ -55,11 +54,20 @@ export const BookCatalogProvider = ({ children }: { children: ReactNode }) => {
     setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
   };
 
-  const handleUpdateBook = async (updatedBook: Book) => {
+  const handleUpdateBook = async (updatedBook: UpdateBookRequest) => {
     await updateBook(updatedBook);
     setBooks((prevBooks) =>
-      prevBooks.map((book) => (book.id === updatedBook.id ? updatedBook : book))
+      prevBooks.map((book) =>
+        book.id === updatedBook.id ? { ...book, ...updatedBook } : book
+      )
     );
+  };
+
+  const handleAddBook = async (newBook: AddBookRequest) => {
+    const response = await addBook(newBook);
+    if (response?.success) {
+      setBooks((prevBooks) => [...prevBooks, response.data]);
+    }
   };
 
   return (
@@ -70,10 +78,13 @@ export const BookCatalogProvider = ({ children }: { children: ReactNode }) => {
         errors,
         removeErrors,
         updateErrors,
+        addErrors,
         updateLoading,
         removeLoading,
+        addLoading,
         handleRemoveBook,
         handleUpdateBook,
+        handleAddBook,
       }}
     >
       {children}

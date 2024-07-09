@@ -4,12 +4,9 @@ import { useState } from "react";
 import styles from "./BookRow.module.css";
 import { useRemoveBook, useUpdateBook } from "@/hooks";
 import { useBookCatalog } from "@/context";
+import { Book } from "@/types";
 
-export default function BookRow({
-  book,
-}: {
-  book: { id: number; title: string; author: string };
-}) {
+export default function BookRow({ book }: { book: Book }) {
   const {
     removeErrors,
     updateErrors,
@@ -25,7 +22,7 @@ export default function BookRow({
 
   const save = () => {
     setEditing(false);
-    handleUpdateBook({ id: book.id, title, author });
+    handleUpdateBook({ ...book, id: book.id, title, author });
   };
 
   const remove = () => {

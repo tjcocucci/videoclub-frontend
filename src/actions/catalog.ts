@@ -1,5 +1,6 @@
 "use server";
 
+import { AddBookRequest, Book, Genre, UpdateBookRequest } from "@/types";
 import { getSession } from "./session";
 
 export async function fetchBooks() {
@@ -29,16 +30,17 @@ export async function fetchBooks() {
   }
 }
 
-export async function updateBook(book: {
-  id: number;
-  title: string;
-  author: string;
-}) {
+export async function updateBook(book: UpdateBookRequest) {
   try {
     const session = await getSession();
     if (!session.data?.access_token) {
       return { success: false, error: "Unauthorized" };
     }
+    const body = {
+      title: book.title,
+      author: book.author,
+    };
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CATALOG_SERVER_ADDRESS}/books/${book.id}/`,
       {
@@ -47,7 +49,7 @@ export async function updateBook(book: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session?.data?.access_token}`,
         },
-        body: JSON.stringify(book),
+        body: JSON.stringify(body),
       }
     );
 
@@ -87,3 +89,40 @@ export async function removeBook(id: number) {
   }
 }
 
+export async function addBook(book: AddBookRequest) {
+  try {
+    const session = await getSession();
+    if (!session.data?.access_token) {
+      return { success: false, error: "Unauthorized" };
+    }
+    const body = {
+      title: book.title,
+      author: book.author,
+      isbn: book.isbn || "1234567890123",
+      stock: book.stock || 0,
+      price: book.price || 0,
+      genres: book.genres || [],
+    };
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CATALOG_SERVER_ADDRESS}/books/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.data?.access_token}`,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, data };
+    } else {
+      return { success: false, error: "There was an error adding the book" };
+    }
+  } catch (error: any) {
+    return { success: false, error: "Internal server error" };
+  }
+}

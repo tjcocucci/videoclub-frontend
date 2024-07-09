@@ -12,6 +12,7 @@
 
 .title,
 .author {
+  height: 1.5em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -28,12 +29,13 @@
 }
 
 .buttons {
+  width: 150px;
   display: flex;
   gap: 1em;
+  justify-content: flex-end;
 }
 
-.editButton,
-.removeButton {
+.buttons > button {
   padding: 0.5em;
   border: none;
   border-radius: 5px;
