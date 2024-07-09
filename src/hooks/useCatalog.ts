@@ -44,6 +44,7 @@ export function useUpdateBook() {
       if (!result.success) {
         setErrors([result.error || "Unexpected error"]);
       }
+      return result;
     } catch (error: any) {
       setErrors(["Unexpected error occurred. Please try again later."]);
     } finally {

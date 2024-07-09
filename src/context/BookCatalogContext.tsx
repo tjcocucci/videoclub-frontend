@@ -55,12 +55,14 @@ export const BookCatalogProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleUpdateBook = async (updatedBook: UpdateBookRequest) => {
-    await updateBook(updatedBook);
-    setBooks((prevBooks) =>
-      prevBooks.map((book) =>
-        book.id === updatedBook.id ? { ...book, ...updatedBook } : book
-      )
-    );
+    const response = await updateBook(updatedBook);
+    if (response?.success) {
+      setBooks((prevBooks) =>
+        prevBooks.map((book) =>
+          book.id === updatedBook.id ? { ...book, ...response.data } : book
+        )
+      );
+    }
   };
 
   const handleAddBook = async (newBook: AddBookRequest) => {

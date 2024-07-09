@@ -39,6 +39,7 @@ export async function updateBook(book: UpdateBookRequest) {
     const body = {
       title: book.title,
       author: book.author,
+      isbn: book.isbn,
     };
 
     const response = await fetch(
@@ -54,7 +55,8 @@ export async function updateBook(book: UpdateBookRequest) {
     );
 
     if (response.ok) {
-      return { success: true };
+      const data = await response.json();
+      return { success: true, data };
     } else {
       return { success: false, error: "There was an error updating the book" };
     }

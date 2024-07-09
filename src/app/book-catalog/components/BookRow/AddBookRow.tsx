@@ -22,12 +22,12 @@ export default function AddBookRow() {
       <div className={styles.container}>
         <input
           className={styles.title}
-          defaultValue={"Title"}
+          placeholder="Title"
           onChange={(e) => setTitle(e.target.value)}
         />
         <input
           className={styles.author}
-          defaultValue={"Author"}
+          placeholder="Author"
           onChange={(e) => setAuthor(e.target.value)}
         />
         <div className={styles.buttons}>

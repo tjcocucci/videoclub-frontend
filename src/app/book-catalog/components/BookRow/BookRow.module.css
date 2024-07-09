@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: center;
   background-color: var(--background-box);
-  height: 3em;
+  height: 4em;
   gap: 1em;
   padding: 0.5em;
   border-radius: 5px;
@@ -26,6 +26,17 @@
 .author {
   font-size: 1em;
   width: 200px;
+}
+
+.isbn {
+  font-size: 0.75em;
+  color: var(--font-color-disabled);
+}
+
+.titleIsbnBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 .buttons {
