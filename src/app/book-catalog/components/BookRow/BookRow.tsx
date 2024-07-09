@@ -2,14 +2,11 @@
 
 import { useState } from "react";
 import styles from "./BookRow.module.css";
-import { useRemoveBook, useUpdateBook } from "@/hooks";
 import { useBookCatalog } from "@/context";
 import { Book } from "@/types";
 
 export default function BookRow({ book }: { book: Book }) {
   const {
-    removeErrors,
-    updateErrors,
     updateLoading,
     removeLoading,
     handleRemoveBook,
@@ -37,7 +34,7 @@ export default function BookRow({ book }: { book: Book }) {
     }
   };
 
-  const loading = removeLoading || updateLoading;
+  const loading = removeLoading === book.id || updateLoading === book.id;
 
   return (
     <div className={styles.container}>

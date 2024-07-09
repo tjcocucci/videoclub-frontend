@@ -36,9 +36,9 @@ export function useGetBooks() {
 
 export function useUpdateBook() {
   const [errors, setErrors] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<null | number>(null);
   const updateBook = async (book: UpdateBookRequest) => {
-    setLoading(true);
+    setLoading(book.id);
     try {
       const result = await updateBookAction(book);
       if (!result.success) {
@@ -47,7 +47,7 @@ export function useUpdateBook() {
     } catch (error: any) {
       setErrors(["Unexpected error occurred. Please try again later."]);
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   };
   return { updateBook, loading, errors };
@@ -55,10 +55,10 @@ export function useUpdateBook() {
 
 export function useRemoveBook() {
   const [errors, setErrors] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<null | number>(null);
   const removeBook = async (id: number) => {
     try {
-      setLoading(true);
+      setLoading(id);
       const result = await removeBookAction(id);
       if (!result.success) {
         setErrors([result.error || "Unexpected error"]);
@@ -66,7 +66,7 @@ export function useRemoveBook() {
     } catch (error: any) {
       setErrors(["Unexpected error occurred. Please try again later."]);
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   };
   return { removeBook, loading, errors };

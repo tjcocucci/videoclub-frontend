@@ -17,8 +17,8 @@ interface BookCatalogContextType {
   removeErrors: string[];
   updateErrors: string[];
   addErrors: string[];
-  updateLoading: boolean;
-  removeLoading: boolean;
+  updateLoading: null | number;
+  removeLoading: null | number;
   addLoading: boolean;
   handleRemoveBook: (id: number) => Promise<void>;
   handleUpdateBook: (book: UpdateBookRequest) => Promise<void>;

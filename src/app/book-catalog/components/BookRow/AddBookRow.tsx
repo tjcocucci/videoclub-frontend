@@ -7,7 +7,7 @@ import { useBookCatalog } from "@/context";
 export default function AddBookRow() {
   const [title, setTitle] = useState<string | null>(null);
   const [author, setAuthor] = useState<string | null>(null);
-  const { handleAddBook } = useBookCatalog();
+  const { addLoading, handleAddBook } = useBookCatalog();
 
   const add = () => {
     if (title && author) {
@@ -18,20 +18,22 @@ export default function AddBookRow() {
   };
 
   return (
-    <div className={styles.container}>
-      <input
-        className={styles.title}
-        defaultValue={"Title"}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <input
-        className={styles.author}
-        defaultValue={"Author"}
-        onChange={(e) => setAuthor(e.target.value)}
-      />
-      <div className={styles.buttons}>
-        <button onClick={add}>Add</button>
+    !addLoading && (
+      <div className={styles.container}>
+        <input
+          className={styles.title}
+          defaultValue={"Title"}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          className={styles.author}
+          defaultValue={"Author"}
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+        <div className={styles.buttons}>
+          <button onClick={add}>Add</button>
+        </div>
       </div>
-    </div>
+    )
   );
 }
